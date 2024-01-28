@@ -1,15 +1,16 @@
 postfix="ts"
-Keyword={
-    "int":"number",
-    "float":"number",
-    "long":"number",
-    "double":"number",
-    "char":"string",
-    "String":"string",
-    "byte":"number",
-    "boolean":"boolean"
-        }
-Identifier  ={}
-Operator    ={}
-Separator   ={}
-Literal     ={}
+primitive_types=["byte","short","int","long","float","double","char","boolean"]
+
+
+TRANS={
+        "byte":"number",
+        "short":"number",
+        "int":"number",
+        "long":"number",
+        "float":"number",
+        "double":"number",
+        "char":"string",
+        "String":"string",
+        "boolean":"boolean",
+    
+}

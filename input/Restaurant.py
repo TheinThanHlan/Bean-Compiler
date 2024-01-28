@@ -2,7 +2,7 @@
 #	name,email,address,phone,openTime,closeTime,manager
 {
     "PACKAGE"       :   "",
-    "CLASS"         :   "Eample",
+    "CLASS"         :   "Restaurant",
     "EXTENDS"       :   "",
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
@@ -13,18 +13,15 @@
     "IMPORTS"       :   {
             "BEAN" :{
                 "java"  : [
-                    "jakarta.persistence.*",
-                        ],
-                "*"     : [
-                    "bean.Restaurant"
-                ]
+                      "jakarta.persistence.*",
+                        ]
             }
         },
     
     "VARIABLES"     :[
         {
             "NAME"      :   "id",
-            "TYPE"      :   "long",
+            "TYPE"      :   "Long",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
@@ -33,7 +30,7 @@
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {
-                    "*"  : "1"
+                    "java"  : "1"
                 }
             }
          },
