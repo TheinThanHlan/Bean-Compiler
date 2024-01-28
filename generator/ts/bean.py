@@ -83,6 +83,7 @@ def generate_getters_and_setters(tokens):
         FUNC_NAME=NAME[0].upper()+NAME[1:];
 
         TYPE=a.get("TYPE");
+        TYPE=config.TRANS.get(TYPE,TYPE)
         
         IS_ARR="[]" if a.get("IS_ARR") else ""
         
@@ -105,9 +106,9 @@ def generate_fromJson(tokens):
 
 
 def generate_equals(tokens):
+    EQUALS_FORMAT="public equals(obj:object):boolean{{{COMPARISONS}return true;}}"
     COMPARISONS_PRIMITIVE_FORMAT = "if(this.get{COMPARE_VAR}()!=obj1.get{COMPARE_VAR}()){{return false;}}"
-    COMPARISONS_FORMAT = "if(!this.get{COMPARE_VAR}().equals(obj1.get{COMPARE_VAR}())){{return false;}}"
-    COMPARISONS=f"if (obj == null) {{return false; }}final {tokens.get('CLASS')} obj1 = ({tokens.get('CLASS')}) Obj;"
+    COMPARISONS=f"if (obj == null) {{return false; }} if (!(obj instanceof {tokens.get('CLASS')} && this instanceof {tokens.get('CLASS')})){{return false;}}const  obj1:{tokens.get('CLASS')} = Object.assign(new {tokens.get('CLASS')}(), obj);"
     output=""
     for a in tokens.get("VARIABLES"):
         COMPARISONS+=COMPARISONS_PRIMITIVE_FORMAT.format(COMPARE_VAR=utils.makeFuncCase(a.get("NAME")))
@@ -118,7 +119,7 @@ def generate_equals(tokens):
 
 
 def generate_clone(tokens):
-    CLONE_FORMAT="@Override()public {CLASS} clone(){{{CLASS} obj=({CLASS})super.clone();return obj;}}"
+    CLONE_FORMAT="public  clone():{CLASS}{{const obj:{CLASS}=Object.assign(new {CLASS}(),JSON.parse(JSON.stringify(this)));return obj;}}"
     output=""
     output=CLONE_FORMAT.format(CLASS=tokens.get("CLASS"))
     return output;
