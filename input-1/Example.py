@@ -2,7 +2,7 @@
 #	name,email,address,phone,openTime,closeTime,manager
 {
     "PACKAGE"       :   "",
-    "CLASS"         :   "Restaurant",
+    "CLASS"         :   "Eample",
     "EXTENDS"       :   "",
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
@@ -13,15 +13,19 @@
     "IMPORTS"       :   {
             "BEAN" :{
                 "java"  : [
-                      "jakarta.persistence.*",
-                        ]
+                    "jakarta.persistence.*",
+                      "org.hibernate.annotations.CreationTimestamp"
+                        ],
+                "*"     : [
+                
+                ]
             }
         },
     
     "VARIABLES"     :[
         {
             "NAME"      :   "id",
-            "TYPE"      :   "Long",
+            "TYPE"      :   "long",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
@@ -30,8 +34,21 @@
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {
-                    "java"  : "1"
+                    "*"  : ""
                 }
+            }
+         },
+        {
+            "NAME"      :   "rowCreatedDateTime",
+            "TYPE"      :   "java.sql.Timestamp",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@CreationTimestamp()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
             }
          },
     ],

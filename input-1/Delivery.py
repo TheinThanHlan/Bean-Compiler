@@ -1,8 +1,7 @@
-#Restaurant
-#	name,email,address,phone,openTime,closeTime,manager
+
 {
     "PACKAGE"       :   "",
-    "CLASS"         :   "Eample",
+    "CLASS"         :   "Delivery",
     "EXTENDS"       :   "",
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
@@ -17,7 +16,7 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                
+                    "bean.User"
                 ]
             }
         },
@@ -34,17 +33,43 @@
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {
-                    "*"  : ""
+                    "*"  : "bean.DeliveryMethod"
                 }
             }
          },
         {
             "NAME"      :   "rowCreatedDateTime",
-            "TYPE"      :   "List<String>",
+            "TYPE"      :   "java.sql.Timestamp",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
                         "java"  :   ["@CreationTimestamp()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "user",
+            "TYPE"      :   "User",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@Column()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "deliveryMethod",
+            "TYPE"      :   "DeliveryMethod",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   []
                     }
                 },
             "DEFAULT"   :   {

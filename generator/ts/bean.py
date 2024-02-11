@@ -49,6 +49,7 @@ def generate_class(tokens):
     CLASS_BODY          +=generate_fromJson(tokens)
     CLASS_BODY          +=generate_equals(tokens)
     CLASS_BODY          +=generate_clone(tokens)
+    CLASS_BODY          +=generate_functions(tokens)
     output              =CLASS_FORMAT.format(ANNOTATIONS=ANNOTATIONS,CLASS=tokens.get("CLASS"),CLASS_BODY=CLASS_BODY , IMPLEMENTS =IMPLEMENTS , EXTENDS=EXTENDS , IS_THERE_EXTENDS=IS_THERE_EXTENDS,IS_THERE_IMPLEMENTS=IMPLEMENTS)
     return output;
    
@@ -62,8 +63,7 @@ def generate_variables(tokens):
         
         NAME=a.get("NAME");
         
-        TYPE=a.get("TYPE");
-        TYPE=config.TRANS.get(TYPE,TYPE)
+        TYPE=config.variableTypeParser(a.get("TYPE"));
         IS_ARR="[]" if a.get("IS_ARR") else ""
         
         DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(globalConfig.all,"")
@@ -82,8 +82,7 @@ def generate_getters_and_setters(tokens):
         NAME=a.get("NAME");
         FUNC_NAME=NAME[0].upper()+NAME[1:];
 
-        TYPE=a.get("TYPE");
-        TYPE=config.TRANS.get(TYPE,TYPE)
+        TYPE=config.variableTypeParser(a.get("TYPE"));
         
         IS_ARR="[]" if a.get("IS_ARR") else ""
         
@@ -125,3 +124,6 @@ def generate_clone(tokens):
     return output;
 
 
+def generate_functions(tokens):
+    output=tokens.get("FUNCTIONS",{}).get("BEAN",{}).get("java","")
+    return output;

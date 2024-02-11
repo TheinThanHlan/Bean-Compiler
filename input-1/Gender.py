@@ -1,8 +1,7 @@
-#Restaurant
-#	name,email,address,phone,openTime,closeTime,manager
+
 {
     "PACKAGE"       :   "",
-    "CLASS"         :   "Eample",
+    "CLASS"         :   "Gender",
     "EXTENDS"       :   "",
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
@@ -40,11 +39,24 @@
          },
         {
             "NAME"      :   "rowCreatedDateTime",
-            "TYPE"      :   "List<String>",
+            "TYPE"      :   "java.sql.Timestamp",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
                         "java"  :   ["@CreationTimestamp()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "name",
+            "TYPE"      :   "String",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@Column(nullable=false,unique=true)"]
                     }
                 },
             "DEFAULT"   :   {

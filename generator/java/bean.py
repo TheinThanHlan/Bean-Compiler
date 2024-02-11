@@ -44,6 +44,7 @@ def generate_class(tokens):
     CLASS_BODY          +=generate_toJson(tokens)
     CLASS_BODY          +=generate_equals(tokens)
     CLASS_BODY          +=generate_clone(tokens)
+    CLASS_BODY          +=generate_functions(tokens)
     output              =CLASS_FORMAT.format(ANNOTATIONS=ANNOTATIONS,CLASS=tokens.get("CLASS"),CLASS_BODY=CLASS_BODY , IMPLEMENTS =IMPLEMENTS , EXTENDS=EXTENDS , IS_THERE_EXTENDS=IS_THERE_EXTENDS)
     return output;
    
@@ -114,3 +115,6 @@ def generate_clone(tokens):
     return output;
 
 
+def generate_functions(tokens):
+    output=tokens.get("FUNCTIONS",{}).get("BEAN",{}).get("java","")
+    return output;
