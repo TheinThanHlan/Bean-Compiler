@@ -19,7 +19,7 @@ def generate_package(tokens):
     return "";
 
 def generate_imports(tokens):
-    IMPORT_FORMAT="import {CLASS} from \"{IMPORT}\";"
+    IMPORT_FORMAT="import {{{CLASS}}} from \"{IMPORT}\";"
     output=""
 #   specific import
 #    for a in tokens.get("IMPORTS",{}).get("BEAN",{}).get(config.postfix,[]):
@@ -56,7 +56,7 @@ def generate_class(tokens):
 
 
 def generate_variables(tokens):
-    VARIABLE_FORMAT="{ANNOTATIONS}private  {NAME}{HAVE_DEFAULT}:{TYPE}{IS_ARR}{DEFAULT};"
+    VARIABLE_FORMAT="{ANNOTATIONS} private {NAME}{HAVE_DEFAULT}:{TYPE}{IS_ARR}{DEFAULT};"
     output=""
     for a in tokens.get("VARIABLES"):
         ANNOTATIONS="".join(a.get("ANNOTATIONS",{}).get("BEAN",{}).get(config.postfix,[]))

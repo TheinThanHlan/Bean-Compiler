@@ -20,7 +20,7 @@ def generate_package(tokens):
 
 def generate_imports(tokens):
     IMPORT_FORMAT="import {IMPORT};"
-    output="import com.google.gson.Gson;"
+    output="import com.google.gson.GsonBuilder;import com.google.gson.annotations.Expose;"
     for a in tokens.get("IMPORTS",{}).get("BEAN",{}).get(config.postfix,[]):
         output+=IMPORT_FORMAT.format(IMPORT=a)
     for a in tokens.get("IMPORTS",{}).get("BEAN",{}).get(globalConfig.all,[]):
@@ -43,6 +43,7 @@ def generate_class(tokens):
     CLASS_BODY          +=generate_getters_and_setters(tokens)
     CLASS_BODY          +=generate_toJson(tokens)
     CLASS_BODY          +=generate_equals(tokens)
+    CLASS_BODY          +=generate_toString(tokens)
     CLASS_BODY          +=generate_clone(tokens)
     CLASS_BODY          +=generate_functions(tokens)
     output              =CLASS_FORMAT.format(ANNOTATIONS=ANNOTATIONS,CLASS=tokens.get("CLASS"),CLASS_BODY=CLASS_BODY , IMPLEMENTS =IMPLEMENTS , EXTENDS=EXTENDS , IS_THERE_EXTENDS=IS_THERE_EXTENDS)
@@ -52,21 +53,40 @@ def generate_class(tokens):
 
 def generate_variables(tokens):
     VARIABLE_FORMAT="{ANNOTATIONS}private {TYPE} {NAME}{IS_ARR}{DEFAULT};"
+    #to check is the variable is lazy or earger
+    lazy_types=["ManyToMany","OneToMany","FetchType.LAZY"]
+    not_lazy_type="FetchType.EARGER"
+
     output=""
     for a in tokens.get("VARIABLES"):
         ANNOTATIONS="".join(a.get("ANNOTATIONS",{}).get("BEAN",{}).get(config.postfix,[]))
+        # if lazy deserialize = true and serialize =false
+        if any(ext in ANNOTATIONS for ext in lazy_types):
+            if not_lazy_type not in ANNOTATIONS:
+                ANNOTATIONS+="@Expose(serialize = false, deserialize = true)"
+            else:
+                ANNOTATIONS+="@Expose(serialize = true, deserialize = true)"
         
-        NAME=a.get("NAME");
+        else:
+            ANNOTATIONS+="@Expose(serialize = true, deserialize = true)"
         
-        TYPE=a.get("TYPE");
+        NAME=a.get("NAME")
+        
+        TYPE=a.get("TYPE")
         
         IS_ARR="[]" if a.get("IS_ARR") else ""
         
-        DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(config.postfix,"")
+        DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(globalConfig.all,"")
+        DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(config.postfix,DEFAULT)
+        #DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(config.postfix,"")
         DEFAULT="="+DEFAULT if DEFAULT!="" else ""
-        
         output+=VARIABLE_FORMAT.format(ANNOTATIONS=ANNOTATIONS,NAME=NAME,TYPE=TYPE,IS_ARR=IS_ARR,DEFAULT=DEFAULT)
     return output
+
+
+def generate_toString(tokens):
+    TO_STRING_FORMAT="""public String toString(){{return this.toJson();}}"""
+    return TO_STRING_FORMAT;
 
 def generate_getters_and_setters(tokens):
     GETTER_FORMAT="public {TYPE}{IS_ARR} get{FUNC_NAME}(){{return this.{NAME};}}"
@@ -74,7 +94,7 @@ def generate_getters_and_setters(tokens):
     output=""
     for a in tokens.get("VARIABLES"):
         NAME=a.get("NAME");
-        FUNC_NAME=NAME[0].upper()+NAME[1:];
+        FUNC_NAME=NAME[0].upper()+NAME[1:]
 
         TYPE=a.get("TYPE");
         
@@ -87,7 +107,7 @@ def generate_getters_and_setters(tokens):
 
 
 def generate_toJson(tokens):
-    TOJSON_FORMAT="public String toJson(){{return new Gson.toJson(this);}}"
+    TOJSON_FORMAT="public String toJson(){{return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(this);}}"
     return TOJSON_FORMAT.format();
     
 
@@ -95,21 +115,20 @@ def generate_equals(tokens):
     EQUALS_FORMAT="@Override()public boolean equals(Object obj){{{COMPARISONS}return true;}}"
     COMPARISONS_PRIMITIVE_FORMAT = "if(this.get{COMPARE_VAR}()!=obj1.get{COMPARE_VAR}()){{return false;}}"
     COMPARISONS_FORMAT = "if(!this.get{COMPARE_VAR}().equals(obj1.get{COMPARE_VAR}())){{return false;}}"
-    COMPARISONS=f"if (obj == null) {{return false; }} if (obj.getClass() != this.getClass()){{return false;}}final {tokens.get('CLASS')} obj1 = ({tokens.get('CLASS')}) Obj;"
+    COMPARISONS=f"if (obj == null) {{return false; }} if (obj.getClass() != this.getClass()){{return false;}}final {tokens.get('CLASS')} obj1 = ({tokens.get('CLASS')}) obj;"
     output=""
     for a in tokens.get("VARIABLES"):
         if a.get("TYPE") in config.primitive_types:
             COMPARISONS+=COMPARISONS_PRIMITIVE_FORMAT.format(COMPARE_VAR=utils.makeFuncCase(a.get("NAME")))
         else:
             COMPARISONS+=COMPARISONS_FORMAT.format(COMPARE_VAR=utils.makeFuncCase(a.get("NAME")))
-
     output+=EQUALS_FORMAT.format(COMPARISONS=COMPARISONS)
     return output
 
 
 
 def generate_clone(tokens):
-    CLONE_FORMAT="@Override()public {CLASS} clone(){{{CLASS} obj=({CLASS})super.clone();return obj;}}"
+    CLONE_FORMAT="@Override()public {CLASS} clone() throws CloneNotSupportedException {{{CLASS} obj=({CLASS})super.clone();return obj;}}"
     output=""
     output=CLONE_FORMAT.format(CLASS=tokens.get("CLASS"))
     return output;

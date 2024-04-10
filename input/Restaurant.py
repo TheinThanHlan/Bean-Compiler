@@ -1,5 +1,3 @@
-#Restaurant
-#	name,email,address,phone,manager
 {
     "PACKAGE"       :   "",
     "CLASS"         :   "Restaurant",
@@ -13,9 +11,15 @@
     "IMPORTS"       :   {
             "BEAN" :{
                 "java"  : [
-                      "jakarta.persistence.*",
+                    "jakarta.persistence.*",
                       "org.hibernate.annotations.CreationTimestamp"
-                        ]
+                        ],
+                "*"     : [
+                    "bean.User",
+                    "bean.Authority",
+                    "bean.Table_",
+                    "bean.MenuPrice"
+                    ]
             }
         },
     
@@ -30,7 +34,9 @@
                     }
                 },
             "DEFAULT"   :   {
-                "BEAN"  : {}
+                "BEAN"  : {
+                    "*"  : ""
+                }
             }
          },
         {
@@ -52,7 +58,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(unique=true,nullable=false)"]
+                        "java"  :   ["@Column(nullable=false)"]
                     }
                 },
             "DEFAULT"   :   {
@@ -65,20 +71,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   []
-                    }
-                },
-            "DEFAULT"   :   {
-                "BEAN"  : {}
-            }
-         },
-        {
-            "NAME"      :   "address",
-            "TYPE"      :   "String",
-            "IS_ARR"    :   False,
-            "ANNOTATIONS"   :{
-                    "BEAN"  :{
-                        "java"  :   []
+                        "java"  :   ["@Column(unique=true)"]
                     }
                 },
             "DEFAULT"   :   {
@@ -91,7 +84,59 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   []
+                        "java"  :   ["@Column(unique=true)"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "address",
+            "TYPE"      :   "String",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@Column()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "manager",
+            "TYPE"      :   "User",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToOne()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "table_s",
+            "TYPE"      :   "java.util.List<Table_>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToMany(fetch=FetchType.LAZY)"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "authorities",
+            "TYPE"      :   "java.util.List<Authority>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@ManyToMany()"]
                     }
                 },
             "DEFAULT"   :   {
@@ -100,20 +145,29 @@
          },
 
 
+        {
+            "NAME"      :   "menuPices",
+            "TYPE"      :   "java.util.List<MenuPrice>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToMany(mappedBy=\"restaurant\")"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+
+
+
+
+
+
+
+
+
     ],
-
-
-
-
-
-
-
-
-
-
-
-
-
     "FUNCTIONS"     :{
         "BEAN"      :{
             "java"  :""

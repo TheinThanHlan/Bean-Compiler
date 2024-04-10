@@ -35,7 +35,8 @@ TRANS={
         "String":"string",
        "boolean":"boolean",
         "java.sql.Timestamp":"Date",
-        "java.util.List":"Array"
+        "java.util.List":"Array",
+        "java.util.LinkedList":"Array"
 }
 
 

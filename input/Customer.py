@@ -1,4 +1,3 @@
-
 {
     "PACKAGE"       :   "",
     "CLASS"         :   "Customer",
@@ -6,7 +5,10 @@
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
             "BEAN"  :{
-                "java"  :   ["@Entity()","@Table()"]
+                "java"  :   [
+                    "@Entity()",
+                    '''@Table(
+                              )''']
             }
         },
     "IMPORTS"       :   {
@@ -16,7 +18,8 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                    "bean.User"
+                    "bean.User",
+                    "bean.Restaurant",
                 ]
             }
         },
@@ -50,19 +53,28 @@
                 "BEAN"  : {}
             }
          },
+
         {
             "NAME"      :   "user",
             "TYPE"      :   "User",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false,unique=true)"]
+                        "java"  :   ["@OneToOne(fetch=FetchType.EAGER)"]
                     }
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {}
             }
          },
+
+
+
+
+
+
+
+
     ],
     "FUNCTIONS"     :{
         "BEAN"      :{

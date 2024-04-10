@@ -1,4 +1,3 @@
-
 {
     "PACKAGE"       :   "",
     "CLASS"         :   "Marsta",
@@ -6,7 +5,10 @@
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
             "BEAN"  :{
-                "java"  :   ["@Entity()","@Table()"]
+                "java"  :   [
+                    "@Entity()",
+                    '''@Table(
+                              )''']
             }
         },
     "IMPORTS"       :   {
@@ -16,7 +18,8 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                
+                    "bean.User",
+                    "bean.Restaurant",
                 ]
             }
         },
@@ -51,18 +54,40 @@
             }
          },
         {
-            "NAME"      :   "status",
+            "NAME"      :   "name",
             "TYPE"      :   "String",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false,unique=true)"]
+                        "java"  :   ["@Column(nullable=false)"]
                     }
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {}
             }
          },
+        {
+            "NAME"      :   "users",
+            "TYPE"      :   "java.util.List<User>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToMany(mappedBy=\"marsta\")"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+
+
+
+
+
+
+
+
+
     ],
     "FUNCTIONS"     :{
         "BEAN"      :{

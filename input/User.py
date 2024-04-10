@@ -17,7 +17,11 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                
+                    "bean.Marsta",
+                    "bean.Gender",
+                    "bean.Restaurant",
+                    "bean.AccountTransaction",
+                    "bean.UserGroup"
                 ]
             }
         },
@@ -70,7 +74,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(unique=true,nullable=false)"]
+                        "java"  :   ["@Column(unique=true)"]
                     }
                 },
             "DEFAULT"   :   {
@@ -83,7 +87,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false)"]
+                        "java"  :   ["@Column(unique=true)"]
                     }
                 },
             "DEFAULT"   :   {
@@ -96,7 +100,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false)"]
+                        "java"  :   ["@Column()"]
                     }
                 },
             "DEFAULT"   :   {
@@ -122,7 +126,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   []
+                        "java"  :   ["@Column(nullable=false)"]
                     }
                 },
             "DEFAULT"   :   {
@@ -130,10 +134,126 @@
             }
          },
 
+        {
+            "NAME"      :   "loginableStatus",
+            "TYPE"      :   "boolean",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   []
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {
+                    "*" : "false"
+                }
+            }
+         },
+
+        {
+            "NAME"      :   "marsta",
+            "TYPE"      :   "Marsta",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@ManyToOne()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {
+                }
+            }
+         },
+
+        
+        {
+            "NAME"      :   "gender",
+            "TYPE"      :   "Gender",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                "BEAN"  :{ "java"  :   ["@ManyToOne()"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+
+        
 
 
 
 
+
+
+
+
+        {
+            "NAME"      :   "restaurant",
+            "TYPE"      :   "java.util.List<Restaurant>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@ManyToMany(fetch=FetchType.LAZY)"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {
+                }
+            }
+         },
+        
+
+
+
+
+
+        {
+            "NAME"      :   "userGroup",
+            "TYPE"      :   "UserGroup",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@ManyToOne(fetch=FetchType.EAGER)"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {
+                }
+            }
+         },
+        
+
+        {
+            "NAME"      :   "recievedAccountTransactions",
+            "TYPE"      :   "java.util.List<AccountTransaction>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToMany(mappedBy=\"reciever\")"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {
+                }
+            }
+         },
+        
+        {
+            "NAME"      :   "paidAccountTransactions",
+            "TYPE"      :   "java.util.List<AccountTransaction>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToMany(mappedBy=\"payer\")"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {
+                }
+            }
+         },
+        
 
 
 

@@ -1,4 +1,3 @@
-
 {
     "PACKAGE"       :   "",
     "CLASS"         :   "Gender",
@@ -6,7 +5,10 @@
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
             "BEAN"  :{
-                "java"  :   ["@Entity()","@Table()"]
+                "java"  :   [
+                    "@Entity()",
+                    '''@Table(
+                              )''']
             }
         },
     "IMPORTS"       :   {
@@ -16,7 +18,8 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                
+                    "bean.User",
+                    "bean.Restaurant",
                 ]
             }
         },
@@ -56,13 +59,35 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false,unique=true)"]
+                        "java"  :   ["@Column(nullable=false)"]
                     }
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {}
             }
          },
+        {
+            "NAME"      :   "users",
+            "TYPE"      :   "java.util.List<User>",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@OneToMany(mappedBy=\"gender\")"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+
+
+
+
+
+
+
+
+
     ],
     "FUNCTIONS"     :{
         "BEAN"      :{

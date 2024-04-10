@@ -1,4 +1,3 @@
-
 {
     "PACKAGE"       :   "",
     "CLASS"         :   "Delivery",
@@ -6,7 +5,10 @@
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
             "BEAN"  :{
-                "java"  :   ["@Entity()","@Table()"]
+                "java"  :   [
+                    "@Entity()",
+                    '''@Table(
+                              )''']
             }
         },
     "IMPORTS"       :   {
@@ -16,7 +18,9 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                    "bean.User"
+                    "bean.User",
+                    "bean.Restaurant",
+                    "bean.DeliveryMethod"
                 ]
             }
         },
@@ -33,7 +37,7 @@
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {
-                    "*"  : "bean.DeliveryMethod"
+                    "*"  : ""
                 }
             }
          },
@@ -50,13 +54,14 @@
                 "BEAN"  : {}
             }
          },
+
         {
             "NAME"      :   "user",
             "TYPE"      :   "User",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column()"]
+                        "java"  :   ["@OneToOne()"]
                     }
                 },
             "DEFAULT"   :   {
@@ -64,18 +69,26 @@
             }
          },
         {
-            "NAME"      :   "deliveryMethod",
-            "TYPE"      :   "DeliveryMethod",
+            "NAME"      :   "deliveryMethods",
+            "TYPE"      :   "java.util.List<DeliveryMethod>",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   []
+                        "java"  :   ["@ManyToMany()"]
                     }
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {}
             }
          },
+
+
+
+
+
+
+
+
     ],
     "FUNCTIONS"     :{
         "BEAN"      :{

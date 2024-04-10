@@ -1,4 +1,3 @@
-
 {
     "PACKAGE"       :   "",
     "CLASS"         :   "UserGroup",
@@ -6,7 +5,10 @@
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
             "BEAN"  :{
-                "java"  :   ["@Entity()","@Table()"]
+                "java"  :   [
+                    "@Entity()",
+                    '''@Table(
+                              )''']
             }
         },
     "IMPORTS"       :   {
@@ -16,7 +18,8 @@
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
                 "*"     : [
-                
+                    "bean.User",
+                    "bean.Authority",
                 ]
             }
         },
@@ -33,7 +36,7 @@
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {
-                    "*"  : "bean.Authority"
+                    "*"  : ""
                 }
             }
          },
@@ -50,13 +53,14 @@
                 "BEAN"  : {}
             }
          },
+
         {
-            "NAME"      :   "name",
-            "TYPE"      :   "String",
+            "NAME"      :   "users",
+            "TYPE"      :   "java.util.List<User>",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false,unique=true)"]
+                        "java"  :   ['@OneToMany(mappedBy="userGroup")']
                     }
                 },
             "DEFAULT"   :   {
@@ -70,13 +74,18 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   []
+                        "java"  :   ['@ManyToOne()']
                     }
                 },
             "DEFAULT"   :   {
                 "BEAN"  : {}
             }
          },
+
+
+
+
+
 
     ],
     "FUNCTIONS"     :{

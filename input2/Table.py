@@ -1,7 +1,6 @@
-
 {
     "PACKAGE"       :   "",
-    "CLASS"         :   "Authority",
+    "CLASS"         :   "Table",
     "EXTENDS"       :   "",
     "IMPLEMENTS"    :   [],
     "ANNOTATIONS"   :{
@@ -12,12 +11,12 @@
     "IMPORTS"       :   {
             "BEAN" :{
                 "java"  : [
-                    "jakarta.persistence.*",
+                      "jakarta.persistence.*",
                       "org.hibernate.annotations.CreationTimestamp"
                         ],
-                "*"     : [
-                
-                ]
+                "*":[
+                    "bean.Restaurant"
+                    ]
             }
         },
     
@@ -32,9 +31,7 @@
                     }
                 },
             "DEFAULT"   :   {
-                "BEAN"  : {
-                    "*"  : ""
-                }
+                "BEAN"  : {}
             }
          },
         {
@@ -56,7 +53,7 @@
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
-                        "java"  :   ["@Column(nullable=false,unique=true)"]
+                        "java"  :   ["@Column(unique=true,nullable=false)"]
                     }
                 },
             "DEFAULT"   :   {
@@ -64,8 +61,21 @@
             }
          },
         {
-            "NAME"      :   "pages",
-            "TYPE"      :   ["java.util.List"],
+            "NAME"      :   "restaurant",
+            "TYPE"      :   "Restaurant",
+            "IS_ARR"    :   False,
+            "ANNOTATIONS"   :{
+                    "BEAN"  :{
+                        "java"  :   ["@ManyToOne(fetch=FetchType.EAGER)"]
+                    }
+                },
+            "DEFAULT"   :   {
+                "BEAN"  : {}
+            }
+         },
+        {
+            "NAME"      :   "maxServeCustomer",
+            "TYPE"      :   "short",
             "IS_ARR"    :   False,
             "ANNOTATIONS"   :{
                     "BEAN"  :{
@@ -76,9 +86,9 @@
                 "BEAN"  : {}
             }
          },
-
-
     ],
+
+
     "FUNCTIONS"     :{
         "BEAN"      :{
             "java"  :""

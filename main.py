@@ -1,6 +1,6 @@
 from generator import Generator
-import os
-
+import os,shutil
+shutil.rmtree("output/")
 INPUT_DIR="input/"
 INPUT_FILES=os.listdir(INPUT_DIR)
 
