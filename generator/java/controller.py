@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import dao.*;
 import bean.*;
 @RestController()
@@ -24,7 +25,7 @@ public class {CLASS_NAME}Controller{{
 	    dao.create(data{CLASS_NAME});
         return data{CLASS_NAME}.toJson();
 	}}
-    
+
 	@PostMapping("read{CLASS_NAME}FromId")
 	public String read{CLASS_NAME}FromId(@RequestBody() int id){{
         try{{
@@ -34,7 +35,7 @@ public class {CLASS_NAME}Controller{{
             return null;
         }}
 	}}
-	
+
     @PostMapping("read{CLASS_NAME}")
 	public String read(@RequestBody() {CLASS_NAME} data{CLASS_NAME} ){{
         try{{
@@ -44,20 +45,25 @@ public class {CLASS_NAME}Controller{{
             return null;
         }}
 	}}
-    
 
-    
+
+
 	@PostMapping("update{CLASS_NAME}")
 	public void update(@RequestBody() {CLASS_NAME} data{CLASS_NAME}){{
         dao.update(data{CLASS_NAME});
 	}}
-    
-	@DeleteMapping("delete{CLASS_NAME}")
-	public String delete(@RequestBody() {CLASS_NAME} data){{
-        dao.delete(data);
-        return "haha";
+
+    @PostMapping("delete{CLASS_NAME}")
+	public String delete(@RequestBody() long id){{
+        try{{
+            dao.delete(id);
+            return "true";
+        }}
+        catch(Exception e){{
+            return "false";
+        }}
 	}}
-    
+
 
 }}
 """
@@ -75,7 +81,7 @@ def generate(tokens):
     dir="/controller"
     name=tokens.get("CLASS")+"Controller"
     Saver.save(dir,name,config.postfix,output)
-    
+
 
 
 

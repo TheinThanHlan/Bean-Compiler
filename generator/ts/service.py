@@ -13,7 +13,7 @@ def generate(tokens):
 
 
 SERVICE_CLASS_TEMPLATE="""
-import {{ HttpClient }} from '@angular/common/http';
+import {{ HttpClient ,HttpHeaders}} from '@angular/common/http';
 import {{ Injectable }} from '@angular/core';
 import {{ AppConfigService }} from '@service/app-config.service';
 import {{ Observable }} from 'rxjs';
@@ -29,19 +29,19 @@ export class {CLASS_NAME}Service {{
   }}
 
   read{CLASS_NAME}FromId(id:number):Observable<{CLASS_NAME}>{{
-    return this.http.post<{CLASS_NAME}>(AppConfigService.BASE_URL+"read{CLASS_NAME}FromId",{{"id":id}});
+    return this.http.post<{CLASS_NAME}>(AppConfigService.BASE_URL+"read{CLASS_NAME}FromId",id);
   }}
   read{CLASS_NAME}(obj:{CLASS_NAME}):Observable<{CLASS_NAME}>{{
     return this.http.post<{CLASS_NAME}>(AppConfigService.BASE_URL+"read{CLASS_NAME}",obj);
   }}
-  create{CLASS_NAME}(obj:{CLASS_NAME}){{ 
+  create{CLASS_NAME}(obj:{CLASS_NAME}){{
     return this.http.post<{CLASS_NAME}>(AppConfigService.BASE_URL+"create{CLASS_NAME}",obj)
   }}
   update{CLASS_NAME}(obj:{CLASS_NAME}){{
     return this.http.post<{CLASS_NAME}>(AppConfigService.BASE_URL+"update{CLASS_NAME}",obj)
   }}
-  delete{CLASS_NAME}(obj:{CLASS_NAME}){{
-    return this.http.post<{CLASS_NAME}>(AppConfigService.BASE_URL+"update{CLASS_NAME}",obj)
+  delete{CLASS_NAME}(id:number){{
+    return this.http.post<boolean>(AppConfigService.BASE_URL+"delete{CLASS_NAME}",id);
   }}
 }}
 

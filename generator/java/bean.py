@@ -55,7 +55,7 @@ def generate_variables(tokens):
     VARIABLE_FORMAT="{ANNOTATIONS}private {TYPE} {NAME}{IS_ARR}{DEFAULT};"
     #to check is the variable is lazy or earger
     lazy_types=["ManyToMany","OneToMany","FetchType.LAZY"]
-    not_lazy_type="FetchType.EARGER"
+    not_lazy_type="FetchType.EAGER"
 
     output=""
     for a in tokens.get("VARIABLES"):

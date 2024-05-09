@@ -19,7 +19,7 @@ CRUD_FUNCTIONS="""
             s.close();
         }}
     }}
-    
+
     public {CLASS_NAME} readFromId(long id){{
         Session s=this.sf.openSession();
         {CLASS_NAME} tmp=null;
@@ -33,7 +33,7 @@ CRUD_FUNCTIONS="""
         return tmp;
 
     }}
- 
+
  public {CLASS_NAME} read({CLASS_NAME} obj){{
         Session s=this.sf.openSession();
         {CLASS_NAME} tmp=null;
@@ -60,14 +60,14 @@ CRUD_FUNCTIONS="""
         }}
     }}
 
-	public void delete({CLASS_NAME} data) {{
+	public void delete(long id) {{
 	    Session s=this.sf.openSession();
         try{{
             Transaction t=s.beginTransaction();
-            s.remove(data);
+            s.remove(this.readFromId(id));
             t.commit();
-        
-            
+
+
         }}finally{{
             s.close();
         }}
@@ -105,7 +105,7 @@ public class {CLASS_NAME}Dao{{
 }}
 
 """
-# use to create the list of getter of given 
+# use to create the list of getter of given
 #def call_getter_as_args(instance_var_name,var_list):
 #    get_args=""
 #    for a in var_list:
@@ -117,7 +117,7 @@ public class {CLASS_NAME}Dao{{
 def generate_crud(tokens):
     functions=""
     variables=""
-    #check is the variable premitive        instance var name  ,   list of variable 
+    #check is the variable premitive        instance var name  ,   list of variable
     #variables=call_getter_as_args("data",[a for a in bc["VARIABLES"] if  and not a[2] and not a[3]] )
     functions += CRUD_FUNCTIONS.format(CLASS_NAME=tokens["CLASS"],VAR_ARGS=variables)
 

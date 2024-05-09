@@ -1,11 +1,13 @@
 #!/bin/sh
 
-rm output/* -rf 
+rm output/* -rf
 
 python3 main.py
 
-rm ../RestaurantManagementSystem/server/src/main/java/generated/* -rf 
-rm ../RestaurantManagementSystem/client/src/app/generated/* -rf  
+CP_DIR="../RestaurantManagementSystem"
 
-cp ./output/java/* ../RestaurantManagementSystem/server/src/main/java/generated/ -rf
-cp ./output/ts/* ../RestaurantManagementSystem/client/src/app/generated/  -rf
+rm $CP_DIR/server/src/main/java/generated/* -rf
+rm $CP_DIR/client/src/app/generated/* -rf
+
+cp ./output/java/* $CP_DIR/server/src/main/java/generated/ -rf
+cp ./output/ts/* $CP_DIR/client/src/app/generated/  -rf
