@@ -20,7 +20,7 @@ def generate_package(tokens):
 
 def generate_imports(tokens):
     IMPORT_FORMAT="import {IMPORT};"
-    output="import com.google.gson.GsonBuilder;import com.google.gson.annotations.Expose;"
+    output="import com.google.gson.GsonBuilder;import com.google.gson.annotations.Expose;import lombok.*;"
     for a in tokens.get("IMPORTS",{}).get("BEAN",{}).get(config.postfix,[]):
         output+=IMPORT_FORMAT.format(IMPORT=a)
     for a in tokens.get("IMPORTS",{}).get("BEAN",{}).get(globalConfig.all,[]):
@@ -30,17 +30,17 @@ def generate_imports(tokens):
 def generate_class(tokens):
     CLASS_FORMAT="{ANNOTATIONS}public class {CLASS} {IS_THERE_EXTENDS} {EXTENDS} implements java.io.Serializable {IMPLEMENTS} {{{CLASS_BODY}}}"
     ANNOTATIONS="".join(tokens.get("ANNOTATIONS",{}).get("BEAN",{}).get(config.postfix,[]))
-    
+
     EXTENDS               = tokens.get("EXTENDS")
     IS_THERE_EXTENDS = "extends" if EXTENDS!="" else "";
-    
-    IMPLEMENTS             = "" 
+
+    IMPLEMENTS             = ""
     for a in tokens.get("IMPLEMENTS"):
         IMPLEMENTS += ","+a
 
     CLASS_BODY          =""
-    CLASS_BODY          +=generate_variables(tokens)   
-    CLASS_BODY          +=generate_getters_and_setters(tokens)
+    CLASS_BODY          +=generate_variables(tokens)
+    #CLASS_BODY          +=generate_getters_and_setters(tokens)
     CLASS_BODY          +=generate_toJson(tokens)
     CLASS_BODY          +=generate_equals(tokens)
     CLASS_BODY          +=generate_toString(tokens)
@@ -48,7 +48,7 @@ def generate_class(tokens):
     CLASS_BODY          +=generate_functions(tokens)
     output              =CLASS_FORMAT.format(ANNOTATIONS=ANNOTATIONS,CLASS=tokens.get("CLASS"),CLASS_BODY=CLASS_BODY , IMPLEMENTS =IMPLEMENTS , EXTENDS=EXTENDS , IS_THERE_EXTENDS=IS_THERE_EXTENDS)
     return output;
-   
+
 
 
 def generate_variables(tokens):
@@ -66,16 +66,18 @@ def generate_variables(tokens):
                 ANNOTATIONS+="@Expose(serialize = false, deserialize = true)"
             else:
                 ANNOTATIONS+="@Expose(serialize = true, deserialize = true)"
-        
+
         else:
             ANNOTATIONS+="@Expose(serialize = true, deserialize = true)"
-        
+
+        ANNOTATIONS+="@Getter() @Setter()"
+
         NAME=a.get("NAME")
-        
+
         TYPE=a.get("TYPE")
-        
+
         IS_ARR="[]" if a.get("IS_ARR") else ""
-        
+
         DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(globalConfig.all,"")
         DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(config.postfix,DEFAULT)
         #DEFAULT=a.get("DEFAULT",{}).get("BEAN",{}).get(config.postfix,"")
@@ -88,6 +90,7 @@ def generate_toString(tokens):
     TO_STRING_FORMAT="""public String toString(){{return this.toJson();}}"""
     return TO_STRING_FORMAT;
 
+"""
 def generate_getters_and_setters(tokens):
     GETTER_FORMAT="public {TYPE}{IS_ARR} get{FUNC_NAME}(){{return this.{NAME};}}"
     SETTER_FORMAT="public void set{FUNC_NAME}({TYPE}{IS_ARR} {NAME}){{this.{NAME}={NAME};}}"
@@ -97,19 +100,18 @@ def generate_getters_and_setters(tokens):
         FUNC_NAME=NAME[0].upper()+NAME[1:]
 
         TYPE=a.get("TYPE");
-        
+
         IS_ARR="[]" if a.get("IS_ARR") else ""
-        
+
         output+=GETTER_FORMAT.format(TYPE=TYPE,IS_ARR=IS_ARR,FUNC_NAME=FUNC_NAME,NAME=NAME)
         output+=SETTER_FORMAT.format(TYPE=TYPE,IS_ARR=IS_ARR,FUNC_NAME=FUNC_NAME,NAME=NAME)
     return output
-
-
+"""
 
 def generate_toJson(tokens):
     TOJSON_FORMAT="public String toJson(){{return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(this);}}"
     return TOJSON_FORMAT.format();
-    
+
 
 def generate_equals(tokens):
     EQUALS_FORMAT="@Override()public boolean equals(Object obj){{{COMPARISONS}return true;}}"
